@@ -35,8 +35,8 @@ io.on('connection', (socket: Socket) => {
   });
 
   // chat between users
-  socket.on('chat', (message) => {
-    socket.to(roomID).emit('chat', message);
+  socket.on('chat', (data) => {
+    socket.to(roomID).emit('chat', data);
   });
 
   // user disconnects
