@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-
+import './App.css';
 import { Landing, Room } from './components';
 
-function App() {
+const App: React.FC = (): JSX.Element => {
+  console.log('rendered');
   return (
     <BrowserRouter>
       <Switch>
@@ -12,6 +13,6 @@ function App() {
       </Switch>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
