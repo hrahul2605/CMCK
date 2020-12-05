@@ -7,12 +7,6 @@ import Editor from '../Editor/Editor';
 
 const socket: SocketIOClient.Socket = io.connect('http://localhost:5000/');
 
-interface messageType {
-  userName: string;
-  message: string;
-  time: number;
-}
-
 const Room: React.FC = (): JSX.Element => {
   const { pathname, state } = useLocation<any>();
   const roomID = pathname.split('/')[1];
@@ -25,32 +19,12 @@ const Room: React.FC = (): JSX.Element => {
       socket.emit('joinRoom', { roomID, userName });
   }, []);
 
-  useEffect(() => {
-    socket.on('userJoined', (name: string) => {
-      console.log(`${name} JOINED.`);
-    });
-
-    socket.on('userDisconnect', (name: string) => {
-      console.log(`${name} DISCONNECTED.`);
-    });
-
-    return () => {
-      socket.off('userJoined', () => {
-        socket.off('userDisconnected');
-      });
-    };
-  }, []);
-
-  const sendMessage = (data: messageType) => {
-    socket.emit('chat', data);
-  };
-
   return (
     <>
       {!coolUser && roomRegExp.test(roomID) ? <Redirect to='/' /> : null}
       <div className='flex h-screen'>
         <Editor socket={socket} />
-        <Chat sendMessage={sendMessage} userName={userName} socket={socket} />
+        <Chat userName={userName} socket={socket} />
       </div>
     </>
   );
