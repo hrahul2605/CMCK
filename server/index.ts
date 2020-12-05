@@ -35,8 +35,18 @@ io.on('connection', (socket: Socket) => {
   });
 
   // chat between users
-  socket.on('chat', (message) => {
-    socket.to(roomID).emit('chat', message);
+  socket.on('chat', (data) => {
+    socket.to(roomID).emit('chat', data);
+  });
+
+  // detect changes in code
+  socket.on('code', (data) => {
+    socket.to(roomID).emit('code', data);
+  });
+
+  // detect change in code language
+  socket.on('langChange', (data) => {
+    socket.to(roomID).emit('langChange', data);
   });
 
   // user disconnects
