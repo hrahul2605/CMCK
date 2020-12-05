@@ -6,6 +6,7 @@
     "@craco/craco": "^5.9.0",
     "@monaco-editor/react": "^3.7.1",
     "autoprefixer": "^9",
+    "dotenv": "^8.2.0",
     "postcss": "^7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
