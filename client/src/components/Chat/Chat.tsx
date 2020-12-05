@@ -8,16 +8,11 @@ interface messageType {
 }
 
 interface props {
-  sendMessage: (data: messageType) => void;
   userName: string;
   socket: SocketIOClient.Socket;
 }
 
-const Chat: React.FC<props> = ({
-  sendMessage,
-  userName,
-  socket,
-}): JSX.Element => {
+const Chat: React.FC<props> = ({ userName, socket }): JSX.Element => {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState<messageType[]>([]);
   const chatInput = useRef<HTMLInputElement>(null);
@@ -32,7 +27,8 @@ const Chat: React.FC<props> = ({
   const handleSend = (): void => {
     if (message.length) {
       const time = Date.now();
-      sendMessage({ message, time, userName });
+
+      socket.emit('chat', { message, time, userName });
       handleChatAdd({ message, time, userName });
     }
     chatInput.current?.focus();
@@ -47,20 +43,56 @@ const Chat: React.FC<props> = ({
     }
   };
 
+  // Scroll to bottom
+  const scrollDown = () => {
+    const chatMessage = document.querySelector('#chat-message')!;
+    chatMessage.scrollTop = chatMessage.scrollHeight;
+  };
+
+  // Function appending user join/left
+  const userAction = (joined: boolean, name: string) => {
+    const ele = document.createElement('div');
+    ele.classList.add(
+      'bg-black',
+      'text-secondary',
+      'text-sm',
+      'font-medium',
+      'text-center',
+      'my-1'
+    );
+    if (joined) ele.append(`~ ${name} JOINED ~`);
+    else ele.append(`~ ${name} LEFT ~`);
+
+    document.querySelector('#chat-message')?.append(ele);
+    scrollDown();
+  };
+
   useEffect(() => {
     chatInput.current?.focus();
+
     socket.on('chat', (data: messageType) => {
       handleChatAdd(data);
     });
 
+    socket.on('userJoined', (name: string) => {
+      userAction(true, name);
+    });
+
+    socket.on('userDisconnect', (name: string) => {
+      userAction(false, name);
+    });
+
     return () => {
-      socket.off('chat');
+      socket.off('userJoined', () => {
+        socket.off('userDisconnected', () => {
+          socket.off('chat');
+        });
+      });
     };
   }, []);
 
   useEffect(() => {
-    const chatMessage = document.querySelector('#chat-message')!;
-    chatMessage.scrollTop = chatMessage.scrollHeight;
+    scrollDown();
   }, [chat]);
 
   return (
@@ -69,6 +101,9 @@ const Chat: React.FC<props> = ({
         id='chat-message'
         className='my-8 mx-2 px-4 flex-1 flex-col h-5/6 overflow-y-scroll'
       >
+        <div className='text-pink font-xs text-center mb-4'>
+          Welcome to ChaloMilkeCodeKarein bruh!
+        </div>
         {chat.map((item) => (
           <Message {...item} key={item.time} cur={item.userName === userName} />
         ))}
