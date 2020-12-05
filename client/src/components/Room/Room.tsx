@@ -6,7 +6,7 @@ import Chat from '../Chat/Chat';
 import Editor from '../Editor/Editor';
 import Nav from '../Nav/Nav';
 
-const socket: SocketIOClient.Socket = io.connect('http://localhost:5000/');
+const socket: SocketIOClient.Socket = io.connect(process.env.REACT_APP_SERVER);
 
 const Room: React.FC = (): JSX.Element => {
   const { pathname, state } = useLocation<any>();
