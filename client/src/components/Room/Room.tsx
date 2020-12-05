@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 import Chat from '../Chat/Chat';
+import Editor from '../Editor/Editor';
 
 const socket: SocketIOClient.Socket = io.connect('http://localhost:5000/');
 
@@ -48,7 +49,7 @@ const Room: React.FC = (): JSX.Element => {
     <>
       {!coolUser && roomRegExp.test(roomID) ? <Redirect to='/' /> : null}
       <div className='flex h-screen'>
-        <div className='flex-1'></div>
+        <Editor socket={socket} />
         <Chat sendMessage={sendMessage} userName={userName} socket={socket} />
       </div>
     </>
