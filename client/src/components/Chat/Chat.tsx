@@ -112,7 +112,7 @@ const Chat: React.FC<props> = ({ userName, socket }): JSX.Element => {
       <div className='fixed flex bottom-4 left-1/2 right-0 rounded-t-xl items-center px-4'>
         <input
           type='text'
-          placeholder='Enter dabayega toh message jayega'
+          placeholder='Type a message'
           className='focus:outline-none rounded-xl h-12 w-full p-2 text-sm text-black font-medium bg-secondary'
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={onKeyDown}
