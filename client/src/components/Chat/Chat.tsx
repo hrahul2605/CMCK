@@ -96,30 +96,31 @@ const Chat: React.FC<props> = ({ userName, socket }): JSX.Element => {
   }, [chat]);
 
   return (
-    <div className='flex-1 flex-col bg-black'>
+    <div className='flex-1 bg-black h-full'>
       <div
         id='chat-message'
-        className='my-8 mx-2 px-4 flex-1 flex-col h-5/6 overflow-y-scroll'
+        className='my-8 mx-2 px-4 flex flex-col overflow-y-scroll relative'
+        style={{ height: '80vh' }}
       >
-        <div className='text-pink font-xs text-center mb-4'>
+        <p className='text-pink font-xs text-center mb-4'>
           Welcome to ChaloMilkeCodeKarein bruh!
-        </div>
+        </p>
         {chat.map((item) => (
           <Message {...item} key={item.time} cur={item.userName === userName} />
         ))}
       </div>
-      <div className='flex flex-1 bg-grey h-20 fixed bottom-0 left-1/2 right-0 rounded-t-xl justify-center items-center px-4'>
+      <div className='fixed flex bottom-4 left-1/2 right-0 rounded-t-xl items-center px-4'>
         <input
           type='text'
           placeholder='Enter dabayega toh message jayega'
-          className='focus:outline-none rounded-xl h-12 w-4/5 p-2 text-sm text-black font-medium bg-secondary'
+          className='focus:outline-none rounded-xl h-12 w-full p-2 text-sm text-black font-medium bg-secondary'
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={onKeyDown}
           value={message}
           ref={chatInput}
         />
         <SendIcon
-          className={`ml-6 ${
+          className={`ml-2 ${
             message.length ? 'cursor-pointer text-secondary' : 'text-black'
           } transform scale-120`}
           onClick={handleSend}

@@ -4,6 +4,7 @@ import { useLocation, Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 import Chat from '../Chat/Chat';
 import Editor from '../Editor/Editor';
+import Nav from '../Nav/Nav';
 
 const socket: SocketIOClient.Socket = io.connect('http://localhost:5000/');
 
@@ -22,9 +23,12 @@ const Room: React.FC = (): JSX.Element => {
   return (
     <>
       {!coolUser && roomRegExp.test(roomID) ? <Redirect to='/' /> : null}
-      <div className='flex h-screen'>
-        <Editor socket={socket} />
-        <Chat userName={userName} socket={socket} />
+      <div className='flex flex-col h-screen'>
+        <Nav name={userName} roomID={roomID} />
+        <div className='flex flex-row h-full'>
+          <Editor socket={socket} />
+          <Chat userName={userName} socket={socket} />
+        </div>
       </div>
     </>
   );

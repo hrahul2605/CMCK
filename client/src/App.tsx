@@ -4,7 +4,6 @@ import './App.css';
 import { Landing, Room } from './components';
 
 const App: React.FC = (): JSX.Element => {
-  console.log('rendered');
   return (
     <BrowserRouter>
       <Switch>

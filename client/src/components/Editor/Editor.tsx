@@ -53,7 +53,7 @@ const Editor: React.FC<Props> = ({ socket }): JSX.Element => {
   };
 
   return (
-    <div className='h-screen overflow-y-hidden flex-1'>
+    <div className='flex flex-1 flex-col'>
       <div className='flex flex-row bg-pink px-4 pt-2 pb-2'>
         <div className='flex flex-col w-36'>
           <p className='text-sm text-secondary mb-1'>Language</p>
@@ -82,16 +82,19 @@ const Editor: React.FC<Props> = ({ socket }): JSX.Element => {
           </div>
         </div>
       </div>
-      <ControlledEditor
-        value={code}
-        theme='cobalt'
-        language={language}
-        onChange={onChange}
-        options={{
-          fontFamily: 'Cascadia Code',
-          fontSize: parseInt(fontSize, 10),
-        }}
-      />
+      <div className='h-full'>
+        <ControlledEditor
+          value={code}
+          theme='cobalt'
+          language={language}
+          onChange={onChange}
+          options={{
+            fontFamily: 'Cascadia Code',
+            fontSize: parseInt(fontSize, 10),
+          }}
+          className='overflow-y-hidden'
+        />
+      </div>
     </div>
   );
 };
