@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { ControlledEditor, monaco } from '@monaco-editor/react';
 import { Langs, Sizes } from './constants';
+const CobaltTheme = require('./themes/cobalt.json')
 
 interface Props {
   socket: SocketIOClient.Socket;
@@ -125,7 +126,7 @@ const Languages: React.FC<LangProps> = ({
 
 const defineTheme = (theme: string) => {
   return new Promise(() => {
-    Promise.all([monaco.init(), import(`./themes/${theme}.json`)]).then(
+    Promise.all([monaco.init(), CobaltTheme]).then(
       ([monaco, themeData]) => {
         monaco.editor.defineTheme(theme, themeData);
       }

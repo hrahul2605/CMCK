@@ -75,11 +75,11 @@ const Chat: React.FC<props> = ({ userName, socket }): JSX.Element => {
     });
 
     socket.on('userJoined', (name: string) => {
-      userAction(true, name);
+      if (userName !== name) userAction(true, name);
     });
 
     socket.on('userDisconnect', (name: string) => {
-      userAction(false, name);
+      if (userName !== name) userAction(false, name);
     });
 
     return () => {

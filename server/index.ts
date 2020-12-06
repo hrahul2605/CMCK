@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { createServer } from 'http';
 import { Socket } from 'socket.io';
+import path from 'path';
 
 const app = express();
 const server = createServer(app);
@@ -9,12 +10,8 @@ app.use(cors());
 
 const PORT = process.env.PORT || 5000;
 
-const io = require('socket.io')(server, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
-  },
-});
+app.use(express.static(path.join(__dirname, 'build')));
+const io = require('socket.io')(server);
 
 io.on('connection', (socket: Socket) => {
   let roomID = '';
@@ -55,8 +52,8 @@ io.on('connection', (socket: Socket) => {
   });
 });
 
-app.get('/', (_, res) => {
-  res.send('CMCK - ChaloMilkeCodeKarein welcomes you.');
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 server.listen(PORT, () => {
