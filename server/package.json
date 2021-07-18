@@ -4,21 +4,21 @@
   "description": "CMCK server",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts",
+    "start": "node dist/index.js",
     "dev": "nodemon index.ts",
-    "build": "cd ../client && yarn build && rm -rf ../server/build && mv build ../server"
+    "build": "tsc"
   },
   "author": "hrahul2605",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "socket.io": "^3.0.3",
-    "@types/socket.io": "^2.1.11",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.1.2"
+    "socket.io": "^3.0.3"
   },
   "devDependencies": {
+    "@types/socket.io": "^2.1.11",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.1.2",
     "nodemon": "^2.0.6"
   }
 }
